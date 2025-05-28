@@ -8,7 +8,7 @@ const config = {
   MIDASBUY_URL: "https://www.midasbuy.com/midasbuy/eg/redeem/pubgm",
   VIEWPORT: { width: 1366, height: 768 }, // ✅ تعريف الـ Viewport
   PUPPETEER_OPTIONS: {
-    headless: true,
+    headless: false,
     userDataDir: "./my-user-data",
     args: ["--no-sandbox", "--disable-setuid-sandbox", "--start-maximized"],
   },
@@ -575,23 +575,6 @@ const clickSendButton = async (page) => {
     console.log("⏳ المتابعة بالرغم من الخطأ، قد تكون العملية اكتملت بنجاح...");
   }
 };
-// تعريف طريق منفصل لاختبار عملية الشحن مباشرة
-app.get("/test-recharge", async (req, res) => {
-  const testPlayerId = req.query.playerId || "5555511111";
-  const testCode = req.query.code || "TESTCODE123";
-
-  try {
-    console.log(`🧪 بدء اختبار الشحن باستخدام: ${testPlayerId}, ${testCode}`);
-    const result = await rechargePlayerCode(testPlayerId, testCode);
-    return res.status(200).json({
-      success: true,
-      message: "تم اختبار العملية بنجاح",
-      data: result,
-    });
-  } catch (err) {
-    return res.status(500).json({ success: false, message: err.message });
-  }
-});
 
 // API Endpoint
 app.post("/recharge", async (req, res) => {

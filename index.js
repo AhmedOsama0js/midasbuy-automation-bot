@@ -8,7 +8,7 @@ const config = {
   MIDASBUY_URL: "https://www.midasbuy.com/midasbuy/eg/redeem/pubgm",
   VIEWPORT: { width: 1366, height: 768 }, // ✅ تعريف الـ Viewport
   PUPPETEER_OPTIONS: {
-    headless: false,
+    headless: true,
     userDataDir: "./my-user-data",
     args: ["--no-sandbox", "--disable-setuid-sandbox", "--start-maximized"],
   },
@@ -642,8 +642,8 @@ app.get("/", (req, res) => {
 });
 
 // بدء السيرفر
-const PORT = process.env.PORT || 3000;
-const server = app.listen(PORT, () => {
+const PORT = 3000;
+const server = app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
   console.log(`📝 Test the service by visiting http://localhost:${PORT}`);
 });

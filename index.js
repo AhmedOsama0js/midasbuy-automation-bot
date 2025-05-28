@@ -8,7 +8,7 @@ const config = {
   MIDASBUY_URL: "https://www.midasbuy.com/midasbuy/eg/redeem/pubgm",
   VIEWPORT: { width: 1366, height: 768 }, // ✅ تعريف الـ Viewport
   PUPPETEER_OPTIONS: {
-    headless: false,
+    headless: true,
     userDataDir: "./my-user-data",
     args: ["--no-sandbox", "--disable-setuid-sandbox", "--start-maximized"],
   },
@@ -60,13 +60,12 @@ const rechargePlayerCode = async (playerId, code) => {
   } catch (error) {
     console.error(`❌ Error during process: ${error.message}`);
     throw new Error(`Error during recharge process: ${error.message}`);
+  } finally {
+    // تم تعليق finally لإبقاء المتصفح مفتوحاً للتحقق من النتائج
+    console.log("Closing browser after completion...");
+    await delay(2000); // تأخير قبل الإغلاق للتأكد من اكتمال العملية
+    await browser.close(); // ✅ متأكد إن المتصفح يتقفل بعد العملية
   }
-  // تم تعليق finally لإبقاء المتصفح مفتوحاً للتحقق من النتائج
-  // finally {
-  //   console.log("Closing browser after completion...");
-  //   await delay(2000); // تأخير قبل الإغلاق للتأكد من اكتمال العملية
-  //   await browser.close(); // ✅ متأكد إن المتصفح يتقفل بعد العملية
-  // }
 };
 
 // إدخال الـ Player ID

@@ -19,7 +19,7 @@ const app = express();
 app.use(express.json());
 
 // تعريف دالة الشحن
-const rechargePlayerCode = async (playerId, code) => {
+const rechargePlayerCode = async (player_id, code) => {
   const browser = await puppeteer.launch(config.PUPPETEER_OPTIONS);
   const page = await browser.newPage();
   try {
@@ -42,8 +42,8 @@ const rechargePlayerCode = async (playerId, code) => {
 
     await delay(500);
 
-    console.log("Step 3: Entering playerId...");
-    await enterPlayerId(page, playerId);
+    console.log("Step 3: Entering player_id...");
+    await enterPlayerId(page, player_id);
 
     await delay(500);
 
@@ -60,16 +60,17 @@ const rechargePlayerCode = async (playerId, code) => {
   } catch (error) {
     console.error(`❌ Error during process: ${error.message}`);
     throw new Error(`Error during recharge process: ${error.message}`);
-  } finally {
-    // تم تعليق finally لإبقاء المتصفح مفتوحاً للتحقق من النتائج
-    console.log("Closing browser after completion...");
-    await delay(2000); // تأخير قبل الإغلاق للتأكد من اكتمال العملية
-    await browser.close(); // ✅ متأكد إن المتصفح يتقفل بعد العملية
   }
+  //  finally {
+  //   // تم تعليق finally لإبقاء المتصفح مفتوحاً للتحقق من النتائج
+  //   console.log("Closing browser after completion...");
+  //   await delay(2000); // تأخير قبل الإغلاق للتأكد من اكتمال العملية
+  //   await browser.close(); // ✅ متأكد إن المتصفح يتقفل بعد العملية
+  // }
 };
 
 // إدخال الـ Player ID
-const enterPlayerId = async (page, playerId) => {
+const enterPlayerId = async (page, player_id) => {
   try {
     await page.waitForSelector('input[placeholder="إدخال حساب معرف لاعب"]', {
       timeout: 5000,
@@ -79,7 +80,7 @@ const enterPlayerId = async (page, playerId) => {
     if (!input) throw new Error("Player ID input not found");
 
     await page.evaluate((el) => (el.value = ""), input);
-    await input.type(playerId, { delay: 100 });
+    await input.type(player_id, { delay: 100 });
 
     const okBtn = await page.$("div.Button_icon_text__C-ysi");
     if (!okBtn) throw new Error("OK button not found");
@@ -578,16 +579,34 @@ const clickSendButton = async (page) => {
 
 // API Endpoint
 app.post("/recharge", async (req, res) => {
-  const { playerId, code } = req.body;
+  const { api_key, code_id, player_id, code, order_id } = req.body;
 
-  if (!playerId || !code)
+  if (!api_key || api_key !== "PubG2025SecretKey") {
+    console.log("Invalid API key:", api_key);
+    return res.status(401).json({ success: false, message: "Invalid API key" });
+  }
+
+  console.log(
+    `Starting recharge: Order ${order_id}, Player ${player_id}, Code ${code}`
+  );
+
+  if (!player_id || !code)
     return res
       .status(400)
-      .json({ success: false, message: "playerId and code are required" });
+      .json({ success: false, message: "player_id and code are required" });
 
   try {
-    const result = await rechargePlayerCode(playerId, code);
-    return res.status(200).json({ success: true, data: result });
+    const result = await rechargePlayerCode(player_id, code);
+    return res.status(200).json({
+      success: true,
+      message: `Process completed - login popup opened${
+        emailEntered ? " and email entered" : ""
+      }`,
+      order_id: order_id,
+      player_id: player_id,
+      code: code,
+      data: result,
+    });
   } catch (err) {
     return res.status(500).json({ success: false, message: err.message });
   }

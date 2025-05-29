@@ -1,2 +1,3 @@
-2025/05/28-15:32:46.499 1e6c Creating DB D:\Codeing\test\uploadeNewBoot\my-user-data\Default\shared_proto_db since it was missing.
-2025/05/28-15:32:47.238 1e6c Reusing MANIFEST D:\Codeing\test\uploadeNewBoot\my-user-data\Default\shared_proto_db/MANIFEST-000001
+2025/05/29-15:15:21.594 41c8 Reusing MANIFEST D:\Codeing\test\uploadeNewBoot\my-user-data\Default\shared_proto_db/MANIFEST-000001
+2025/05/29-15:15:21.595 41c8 Recovering log #3
+2025/05/29-15:15:21.595 41c8 Reusing old log D:\Codeing\test\uploadeNewBoot\my-user-data\Default\shared_proto_db/000003.log 

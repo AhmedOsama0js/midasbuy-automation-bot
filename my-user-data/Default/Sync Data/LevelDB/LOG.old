@@ -1,2 +1,3 @@
-2025/05/28-15:32:42.907 1e6c Creating DB D:\Codeing\test\uploadeNewBoot\my-user-data\Default\Sync Data\LevelDB since it was missing.
-2025/05/28-15:32:43.224 1e6c Reusing MANIFEST D:\Codeing\test\uploadeNewBoot\my-user-data\Default\Sync Data\LevelDB/MANIFEST-000001
+2025/05/29-15:15:20.306 43f0 Reusing MANIFEST D:\Codeing\test\uploadeNewBoot\my-user-data\Default\Sync Data\LevelDB/MANIFEST-000001
+2025/05/29-15:15:20.307 43f0 Recovering log #3
+2025/05/29-15:15:20.307 43f0 Reusing old log D:\Codeing\test\uploadeNewBoot\my-user-data\Default\Sync Data\LevelDB/000003.log 
